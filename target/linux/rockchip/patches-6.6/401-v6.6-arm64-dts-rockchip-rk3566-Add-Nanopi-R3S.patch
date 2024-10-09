@@ -1,0 +1,145 @@
+--- /dev/null
++++ b/arch/arm64/boot/dts/rockchip/rk3566-nanopi-r3s.dts
+@@ -0,0 +1,131 @@
++// SPDX-License-Identifier: GPL-2.0-or-later OR MIT
++/*
++ * Copyright (c) 2022 FriendlyElec Computer Tech. Co., Ltd.
++ * (http://www.friendlyelec.com)
++ *
++ * Copyright (c) 2023 Tianling Shen <cnsztl@gmail.com>
++ *
++ * Copyright (c) 2024 Kevin Zhang <kevin@kevinzhang.me>
++ */
++
++/dts-v1/;
++#include "rk3568-nanopi-r5s.dtsi"
++
++/ {
++	model = "FriendlyElec NanoPi R3S";
++	compatible = "friendlyarm,nanopi-r3s", "rockchip,rk3566";
++
++    aliases {
++		ethernet0 = &gmac1;
++	};
++
++	gpio_keys: gpio-keys {
++		compatible = "gpio-keys";
++		pinctrl-names = "default";
++		pinctrl-0 = <&key1_pin>;
++
++		button@1 {
++			debounce-interval = <50>;
++			gpios = <&gpio0 RK_PC2 GPIO_ACTIVE_LOW>;
++			label = "K1";
++			linux,code = <BTN_1>;
++			wakeup-source;
++		};
++	};
++
++	gpio_leds: gpio-leds {
++		compatible = "gpio-leds";
++
++		power_led: led-0 {
++			gpios = <&gpio0 RK_PB7 GPIO_ACTIVE_HIGH>;
++			label = "sys_led";
++			linux,default-trigger = "heartbeat";
++			pinctrl-names = "default";
++			pinctrl-0 = <&sys_led_pin>;
++		};
++
++		wan_led: led-1 {
++			gpios = <&gpio3 RK_PC3 GPIO_ACTIVE_HIGH>;
++			label = "wan_led";
++			pinctrl-names = "default";
++			pinctrl-0 = <&wan_led_pin>;
++		};
++
++		lan_led: led-2 {
++			gpios = <&gpio3 RK_PC2 GPIO_ACTIVE_HIGH>;
++			label = "lan_led";
++			pinctrl-names = "default";
++			pinctrl-0 = <&lan_led_pin>;
++		};
++	};
++};
++
++&gmac1 {
++	assigned-clocks = <&cru SCLK_GMAC1_RX_TX>, <&cru SCLK_GMAC1>;
++	assigned-clock-parents = <&cru SCLK_GMAC1_RGMII_SPEED>, <&cru CLK_MAC1_2TOP>;
++	assigned-clock-rates = <0>, <125000000>;
++	clock_in_out = "output";
++	phy-handle = <&rgmii_phy1>;
++	phy-mode = "rgmii";
++	pinctrl-names = "default";
++	pinctrl-0 = <&gmac1m0_miim
++		     &gmac1m0_tx_bus2_level3
++		     &gmac1m0_rx_bus2
++		     &gmac1m0_rgmii_clk_level2
++		     &gmac1m0_rgmii_bus_level3>;
++	snps,reset-gpio = <&gpio4 RK_PC2 GPIO_ACTIVE_LOW>;
++	snps,reset-active-low;
++	/* Reset time is 15ms, 50ms for rtl8211f */
++	snps,reset-delays-us = <0 15000 50000>;
++	tx_delay = <0x3c>;
++	rx_delay = <0x2f>;
++	status = "okay";
++};
++
++&mdio1 {
++	rgmii_phy1: ethernet-phy@1 {
++		compatible = "ethernet-phy-ieee802.3-c22";
++		reg = <1>;
++		pinctrl-0 = <&gmac_int>;
++		pinctrl-names = "default";
++	};
++};
++
++&pcie2x1 {
++	num-lanes = <1>;
++	reset-gpios = <&gpio4 RK_PC6 GPIO_ACTIVE_HIGH>;
++	status = "okay";
++};
++
++&pinctrl {
++	gpio-key {
++		key1_pin: key1-pin {
++			rockchip,pins = <0 RK_PC2 RK_FUNC_GPIO &pcfg_pull_up>;
++		};
++	};
++
++	gpio-leds {
++		sys_led_pin: sys-led-pin {
++			rockchip,pins =
++				<0 RK_PB7 RK_FUNC_GPIO &pcfg_pull_none>;
++		};
++
++		wan_led_pin: wan-led-pin {
++			rockchip,pins =
++				<3 RK_PC3 RK_FUNC_GPIO &pcfg_pull_none>;
++		};
++
++		lan_led_pin: lan-led-pin {
++			rockchip,pins =
++				<3 RK_PC2 RK_FUNC_GPIO &pcfg_pull_none>;
++		};
++	};
++
++	gmac {
++		gmac_int: gmac-int {
++			rockchip,pins =
++				<4 RK_PC3 RK_FUNC_GPIO &pcfg_pull_up>;
++		};
++	};
++};
++
+--- a/arch/arm64/boot/dts/rockchip/Makefile    2024-10-08 22:28:50.571181105 -0400
++++ b/arch/arm64/boot/dts/rockchip/Makefile   2024-10-09 08:11:19.128235348 -0400
+@@ -75,6 +75,7 @@
+ dtb-$(CONFIG_ARCH_ROCKCHIP) += rk3566-anbernic-rg353v.dtb
+ dtb-$(CONFIG_ARCH_ROCKCHIP) += rk3566-anbernic-rg353vs.dtb
+ dtb-$(CONFIG_ARCH_ROCKCHIP) += rk3566-anbernic-rg503.dtb
++dtb-$(CONFIG_ARCH_ROCKCHIP) += rk3566-nanopi-r3s.dtb
+ dtb-$(CONFIG_ARCH_ROCKCHIP) += rk3566-pinenote-v1.1.dtb
+ dtb-$(CONFIG_ARCH_ROCKCHIP) += rk3566-pinenote-v1.2.dtb
+ dtb-$(CONFIG_ARCH_ROCKCHIP) += rk3566-quartz64-a.dtb
+
