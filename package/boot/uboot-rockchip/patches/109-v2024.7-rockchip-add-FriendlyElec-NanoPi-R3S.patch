@@ -1,4 +1,31 @@
 --- /dev/null	2024-10-08 20:38:15.835000058 -0400
++++ b/arch/arm/dts/rk3566-nanopi-r3s-u-boot.dtsi	2024-10-09 00:34:34.754861903 -0400
+@@ -0,0 +1,24 @@
++// SPDX-License-Identifier: GPL-2.0-or-later OR MIT
++/*
++ * Copyright (c) 2022 FriendlyElec Computer Tech. Co., Ltd.
++ * (http://www.friendlyelec.com)
++ *
++ * Copyright (c) 2023 Tianling Shen <cnsztl@gmail.com>
++ *
++ * Copyright (c) 2024 Kevin Zhang <kevin@kevinzhang.me>
++ */
++
++#include "rk356x-u-boot.dtsi"
++
++&sdhci {
++	cap-mmc-highspeed;
++	mmc-hs200-1_8v;
++	mmc-hs400-1_8v;
++	mmc-hs400-enhanced-strobe;
++	pinctrl-0 = <&emmc_bus8 &emmc_clk &emmc_cmd &emmc_datastrobe>;
++};
++
++&vcc5v0_usb_host {
++	/delete-property/ regulator-always-on;
++	/delete-property/ regulator-boot-on;
++};
+--- /dev/null	2024-10-08 20:38:15.835000058 -0400
 +++ b/configs/nanopi-r3s-rk3566_defconfig	2024-10-09 00:34:30.036761488 -0400
 @@ -0,0 +1,77 @@
 +CONFIG_ARM=y
