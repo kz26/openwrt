@@ -69,7 +69,6 @@ define Device/friendlyarm_nanopi-r3s
   DEVICE_VENDOR := FriendlyARM
   DEVICE_MODEL := NanoPi R3S
   SOC := rk3566
-  DEVICE_DTS := rockchip/rk3566-nanopi-r3s
   DEVICE_PACKAGES := kmod-r8169
 endef
 TARGET_DEVICES += friendlyarm_nanopi-r3s
