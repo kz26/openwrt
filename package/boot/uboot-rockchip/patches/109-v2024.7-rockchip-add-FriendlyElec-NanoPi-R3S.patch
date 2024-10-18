@@ -108,8 +108,8 @@
 +CONFIG_USB_DWC3_GENERIC=y
 +CONFIG_ERRNO_STR=y
 --- /dev/null	2024-10-17 19:03:09.502000228 -0400
-+++ b/arch/arm/dts/rk3566-nanopi-r3s.dts	2024-10-18 01:22:53.789272560 -0400
-@@ -0,0 +1,621 @@
++++ b/arch/arm/dts/rk3566-nanopi-r3s.dts	2024-10-18 10:33:19.266114073 -0400
+@@ -0,0 +1,620 @@
 +// SPDX-License-Identifier: GPL-2.0-or-later OR MIT
 +/*
 + * Copyright (c) 2022 FriendlyElec Computer Tech. Co., Ltd.
@@ -232,27 +232,26 @@
 +
 +	gpio_leds: gpio-leds {
 +		compatible = "gpio-leds";
++		pinctrl-names = "default";
++		pinctrl-0 = <&lan_led_pin>, <&power_led_pin>, <&wan_led_pin>;
 +
-+		sys_led: led-0 {
++		power_led: led-power {
++			color = <LED_COLOR_ID_RED>;
++			function = LED_FUNCTION_POWER;
 +			gpios = <&gpio0 RK_PB7 GPIO_ACTIVE_HIGH>;
-+			label = "sys_led";
 +			linux,default-trigger = "heartbeat";
-+			pinctrl-names = "default";
-+			pinctrl-0 = <&sys_led_pin>;
 +		};
 +
-+		wan_led: led-1 {
++		led-wan {
++			color = <LED_COLOR_ID_GREEN>;
++			function = LED_FUNCTION_WAN;
 +			gpios = <&gpio3 RK_PC3 GPIO_ACTIVE_HIGH>;
-+			label = "wan_led";
-+			pinctrl-names = "default";
-+			pinctrl-0 = <&wan_led_pin>;
 +		};
 +
-+		lan_led: led-2 {
++		led-lan {
++			color = <LED_COLOR_ID_GREEN>;
++			function = LED_FUNCTION_LAN;
 +			gpios = <&gpio3 RK_PC2 GPIO_ACTIVE_HIGH>;
-+			label = "lan_led";
-+			pinctrl-names = "default";
-+			pinctrl-0 = <&lan_led_pin>;
 +		};
 +	};
 +};
@@ -707,7 +706,7 @@
 +	};
 +
 +	gpio-leds {
-+		sys_led_pin: sys-led-pin {
++		power_led_pin: power-led-pin {
 +			rockchip,pins =
 +				<0 RK_PB7 RK_FUNC_GPIO &pcfg_pull_none>;
 +		};
