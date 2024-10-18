@@ -9,8 +9,8 @@
  dtb-$(CONFIG_ARCH_ROCKCHIP) += rk3566-pinenote-v1.2.dtb
  dtb-$(CONFIG_ARCH_ROCKCHIP) += rk3566-quartz64-a.dtb
 --- /dev/null	2024-10-17 19:03:09.502000228 -0400
-+++ b/arch/arm64/boot/dts/rockchip/rk3566-nanopi-r3s.dts	2024-10-18 10:33:19.266114073 -0400
-@@ -0,0 +1,620 @@
++++ b/arch/arm64/boot/dts/rockchip/rk3566-nanopi-r3s.dts	2024-10-18 14:37:26.464293038 -0400
+@@ -0,0 +1,646 @@
 +// SPDX-License-Identifier: GPL-2.0-or-later OR MIT
 +/*
 + * Copyright (c) 2022 FriendlyElec Computer Tech. Co., Ltd.
@@ -120,13 +120,13 @@
 +	gpio_keys: gpio-keys {
 +		compatible = "gpio-keys";
 +		pinctrl-names = "default";
-+		pinctrl-0 = <&key1_pin>;
++		pinctrl-0 = <&reset_button_pin>;
 +
-+		button@1 {
++		button-reset {
 +			debounce-interval = <50>;
 +			gpios = <&gpio0 RK_PC2 GPIO_ACTIVE_LOW>;
-+			label = "K1";
-+			linux,code = <BTN_1>;
++			label = "reset";
++			linux,code = <KEY_RESTART>;
 +			wakeup-source;
 +		};
 +	};
@@ -545,9 +545,20 @@
 +	status = "okay";
 +};
 +
++&usb_host1_ehci {
++	status = "okay";
++};
++
++&usb_host1_ohci {
++	status = "okay";
++};
++
 +&usb_host0_xhci {
-+	extcon = <&usb2phy0>;
 +	dr_mode = "host";
++	status = "okay";
++};
++
++&usb_host1_xhci {
 +	status = "okay";
 +};
 +
@@ -561,6 +572,21 @@
 +};
 +
 +&usb2phy0_otg {
++	status = "okay";
++};
++
++
++&usb2phy1 {
++	status = "okay";
++};
++
++&usb2phy1_host {
++	phy-supply = <&vcc5v0_usb_otg>;
++	status = "okay";
++};
++
++&usb2phy1_otg {
++	phy-supply = <&vcc5v0_usb_otg>;
 +	status = "okay";
 +};
 +
@@ -601,7 +627,7 @@
 +	};
 +	
 +	gpio-key {
-+		key1_pin: key1-pin {
++		reset_button_pin: reset-button-pin {
 +			rockchip,pins = <0 RK_PC2 RK_FUNC_GPIO &pcfg_pull_up>;
 +		};
 +	};
