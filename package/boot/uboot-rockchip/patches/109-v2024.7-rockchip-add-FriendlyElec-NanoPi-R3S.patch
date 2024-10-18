@@ -108,8 +108,8 @@
 +CONFIG_USB_DWC3_GENERIC=y
 +CONFIG_ERRNO_STR=y
 --- /dev/null	2024-10-17 19:03:09.502000228 -0400
-+++ b/arch/arm/dts/rk3566-nanopi-r3s.dts	2024-10-17 19:11:13.697862761 -0400
-@@ -0,0 +1,612 @@
++++ b/arch/arm/dts/rk3566-nanopi-r3s.dts	2024-10-18 01:22:53.789272560 -0400
+@@ -0,0 +1,621 @@
 +// SPDX-License-Identifier: GPL-2.0-or-later OR MIT
 +/*
 + * Copyright (c) 2022 FriendlyElec Computer Tech. Co., Ltd.
@@ -519,6 +519,14 @@
 +	};
 +};
 +
++&combphy1 {
++	status = "okay";
++};
++
++&combphy2 {
++	status = "okay";
++};
++
 +&gmac1 {
 +	phy-mode = "rgmii";
 +	clock_in_out = "output";
@@ -570,15 +578,16 @@
 +};
 +
 +&pcie2x1 {
-+   pinctrl-names = "default";
-+   num-viewport = <4>;
-+   num-lanes = <1>;
++	num-lanes = <1>;
++	num-viewport = <4>;
 +	reset-gpios = <&gpio4 RK_PC6 GPIO_ACTIVE_HIGH>;
++   vpcie3v3-supply = <&vcc3v3_pcie>;
 +	status = "okay";
 +};
 +
 +&pmu_io_domains {
 +	status = "okay";
++	pmuio1-supply = <&vcc3v3_pmu>;
 +	pmuio2-supply = <&vcc3v3_pmu>;
 +	vccio2-supply = <&vcc_1v8>;
 +	vccio3-supply = <&vccio_sd>;
