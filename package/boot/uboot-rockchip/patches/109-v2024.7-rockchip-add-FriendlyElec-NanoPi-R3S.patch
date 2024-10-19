@@ -1,6 +1,6 @@
 --- /dev/null	2024-10-08 20:38:15.835000058 -0400
 +++ b/arch/arm/dts/rk3566-nanopi-r3s-u-boot.dtsi	2024-10-09 00:34:34.754861903 -0400
-@@ -0,0 +1,20 @@
+@@ -0,0 +1,25 @@
 +// SPDX-License-Identifier: GPL-2.0-or-later OR MIT
 +/*
 + * Copyright (c) 2022 FriendlyElec Computer Tech. Co., Ltd.
@@ -19,6 +19,11 @@
 +	mmc-hs400-1_8v;
 +	mmc-hs400-enhanced-strobe;
 +	pinctrl-0 = <&emmc_bus8 &emmc_clk &emmc_cmd &emmc_datastrobe>;
++};
++
++&vcc5v0_usb_host {
++	/delete-property/ regulator-always-on;
++	/delete-property/ regulator-boot-on;
 +};
 +
 --- /dev/null	2024-10-08 20:38:15.835000058 -0400
@@ -105,7 +110,7 @@
 +CONFIG_ERRNO_STR=y
 --- /dev/null	2024-10-17 19:03:09.502000228 -0400
 +++ b/arch/arm/dts/rk3566-nanopi-r3s.dts	2024-10-18 14:37:26.464293038 -0400
-@@ -0,0 +1,646 @@
+@@ -0,0 +1,645 @@
 +// SPDX-License-Identifier: GPL-2.0-or-later OR MIT
 +/*
 + * Copyright (c) 2022 FriendlyElec Computer Tech. Co., Ltd.
@@ -667,22 +672,21 @@
 +};
 +
 +&usb2phy0_otg {
++	phy-supply = <&vcc5v0_usb_otg>;
 +	status = "okay";
 +};
 +
 +
 +&usb2phy1 {
-+	status = "okay";
++	status = "disabled";
 +};
 +
 +&usb2phy1_host {
-+	phy-supply = <&vcc5v0_usb_otg>;
-+	status = "okay";
++	status = "disabled";
 +};
 +
 +&usb2phy1_otg {
-+	phy-supply = <&vcc5v0_usb_otg>;
-+	status = "okay";
++	status = "disabled";
 +};
 +
 +&vop {
