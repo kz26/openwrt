@@ -108,7 +108,7 @@
 +CONFIG_USB_DWC3=y
 +CONFIG_USB_DWC3_GENERIC=y
 --- /dev/null
-+++ b/arch/arm64/boot/dts/rockchip/rk3566-nanopi-r3s.dts
++++ b/arch/arm/dts/rk3566-nanopi-r3s.dts
 @@ -0,0 +1,554 @@
 +// SPDX-License-Identifier: GPL-2.0-or-later OR MIT
 +/*
