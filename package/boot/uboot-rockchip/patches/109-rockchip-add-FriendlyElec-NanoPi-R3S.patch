@@ -21,7 +21,7 @@
 +	pinctrl-0 = <&emmc_bus8 &emmc_clk &emmc_cmd &emmc_datastrobe>;
 +};
 +
-+&vcc5v0_usb_host {
++&vcc5v0_usb {
 +	/delete-property/ regulator-always-on;
 +	/delete-property/ regulator-boot-on;
 +};
