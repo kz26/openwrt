@@ -28,7 +28,7 @@
 +
 --- /dev/null
 +++ b/configs/nanopi-r3s-rk3566_defconfig
-@@ -0,0 +1,78 @@
+@@ -0,0 +1,73 @@
 +CONFIG_ARM=y
 +CONFIG_SKIP_LOWLEVEL_INIT=y
 +CONFIG_SYS_HAS_NONCACHED_MEMORY=y
@@ -68,7 +68,6 @@
 +CONFIG_SPL_OF_CONTROL=y
 +CONFIG_OF_LIVE=y
 +CONFIG_OF_SPL_REMOVE_PROPS="clock-names interrupt-parent assigned-clocks assigned-clock-rates assigned-clock-parents"
-+CONFIG_SPL_DM_WARN=y
 +CONFIG_SPL_DM_SEQ_ALIAS=y
 +CONFIG_SPL_REGMAP=y
 +CONFIG_SPL_SYSCON=y
@@ -101,10 +100,6 @@
 +CONFIG_SYSRESET=y
 +CONFIG_USB=y
 +CONFIG_USB_XHCI_HCD=y
-+CONFIG_USB_EHCI_HCD=y
-+CONFIG_USB_EHCI_GENERIC=y
-+CONFIG_USB_OHCI_HCD=y
-+CONFIG_USB_OHCI_GENERIC=y
 +CONFIG_USB_DWC3=y
 +CONFIG_USB_DWC3_GENERIC=y
 --- /dev/null
