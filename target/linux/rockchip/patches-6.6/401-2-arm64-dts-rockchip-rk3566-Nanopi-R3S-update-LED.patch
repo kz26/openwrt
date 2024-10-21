@@ -1,4 +1,4 @@
-+++ a/arch/arm64/boot/dts/rockchip/rk3566-nanopi-r3s.dts
+--- a/arch/arm64/boot/dts/rockchip/rk3566-nanopi-r3s.dts
 +++ b/arch/arm64/boot/dts/rockchip/rk3566-nanopi-r3s.dts
 @@ -24,6 +24,11 @@
  		ethernet0 = &gmac1;
