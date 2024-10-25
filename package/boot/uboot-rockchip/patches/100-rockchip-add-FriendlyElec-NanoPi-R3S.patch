@@ -110,7 +110,7 @@
 + * Copyright (c) 2020 Rockchip Electronics Co., Ltd.
 + *
 + * Copyright (c) 2024 FriendlyElec Computer Tech. Co., Ltd.
-+ * (http://www.friendlyarm.com)
++ * (http://www.friendlyelec.com)
 + *
 + * Copyright (c) 2024 Tianling Shen <cnsztl@gmail.com>
 + */
@@ -124,13 +124,13 @@
 +#include "rk3566.dtsi"
 +
 +/ {
-+	model = "FriendlyARM NanoPi R3S";
++	model = "FriendlyElec NanoPi R3S";
 +	compatible = "friendlyarm,nanopi-r3s", "rockchip,rk3566";
 +
 +	aliases {
 +		ethernet0 = &gmac1;
-+		mmc0 = &sdmmc0;
-+		mmc1 = &sdhci;
++		mmc0 = &sdhci;
++		mmc1 = &sdmmc0;
 +	};
 +
 +	chosen: chosen {
@@ -175,26 +175,7 @@
 +		};
 +	};
 +
-+	vdd_usbc: vdd-usbc-regulator {
-+		compatible = "regulator-fixed";
-+		regulator-name = "vdd_usbc";
-+		regulator-always-on;
-+		regulator-boot-on;
-+		regulator-min-microvolt = <5000000>;
-+		regulator-max-microvolt = <5000000>;
-+	};
-+
-+	vcc5v0_sys: vcc5v0-sys-regulator {
-+		compatible = "regulator-fixed";
-+		regulator-name = "vcc5v0_sys";
-+		regulator-always-on;
-+		regulator-boot-on;
-+		regulator-min-microvolt = <5000000>;
-+		regulator-max-microvolt = <5000000>;
-+		vin-supply = <&vdd_usbc>;
-+	};
-+
-+	vcc3v3_sys: vcc3v3-sys-regulator {
++	vcc3v3_sys: regulator-vcc3v3-sys {
 +		compatible = "regulator-fixed";
 +		regulator-name = "vcc3v3_sys";
 +		regulator-always-on;
@@ -204,7 +185,17 @@
 +		vin-supply = <&vcc5v0_sys>;
 +	};
 +
-+	vcc5v0_usb: vcc5v0_usb-regulator {
++	vcc5v0_sys: regulator-vcc5v0-sys {
++		compatible = "regulator-fixed";
++		regulator-name = "vcc5v0_sys";
++		regulator-always-on;
++		regulator-boot-on;
++		regulator-min-microvolt = <5000000>;
++		regulator-max-microvolt = <5000000>;
++		vin-supply = <&vdd_usbc>;
++	};
++
++	vcc5v0_usb: regulator-vcc5v0_usb {
 +		compatible = "regulator-fixed";
 +		enable-active-high;
 +		gpio = <&gpio0 RK_PA6 GPIO_ACTIVE_HIGH>;
@@ -216,6 +207,15 @@
 +		regulator-min-microvolt = <5000000>;
 +		regulator-max-microvolt = <5000000>;
 +		vin-supply = <&vcc5v0_sys>;
++	};
++
++	vdd_usbc: regulator-vdd-usbc {
++		compatible = "regulator-fixed";
++		regulator-name = "vdd_usbc";
++		regulator-always-on;
++		regulator-boot-on;
++		regulator-min-microvolt = <5000000>;
++		regulator-max-microvolt = <5000000>;
 +	};
 +};
 +
@@ -256,10 +256,6 @@
 +		     &gmac1m0_rx_bus2
 +		     &gmac1m0_rgmii_clk_level2
 +		     &gmac1m0_rgmii_bus_level3>;
-+	snps,reset-gpio = <&gpio4 RK_PC2 GPIO_ACTIVE_LOW>;
-+	snps,reset-active-low;
-+	/* Reset time is 20ms, 100ms for rtl8211f */
-+	snps,reset-delays-us = <0 20000 100000>;
 +	status = "okay";
 +};
 +
@@ -521,6 +517,9 @@
 +		interrupts = <RK_PC3 IRQ_TYPE_LEVEL_LOW>;
 +		pinctrl-names = "default";
 +		pinctrl-0 = <&eth_phy_reset_pin>;
++		reset-assert-us = <20000>;
++		reset-deassert-us = <100000>;
++		reset-gpios = <&gpio4 RK_PC2 GPIO_ACTIVE_LOW>;
 +	};
 +};
 +
@@ -584,7 +583,6 @@
 +};
 +
 +&pmu_io_domains {
-+	status = "okay";
 +	pmuio1-supply = <&vcc3v3_pmu>;
 +	pmuio2-supply = <&vcc3v3_pmu>;
 +	vccio1-supply = <&vccio_acodec>;
@@ -594,11 +592,13 @@
 +	vccio5-supply = <&vcc_1v8>;
 +	vccio6-supply = <&vcc_3v3>;
 +	vccio7-supply = <&vcc_3v3>;
++	status = "okay";
 +};
 +
 +&sdhci {
 +	bus-width = <8>;
 +	max-frequency = <200000000>;
++	mmc-hs200-1_8v;
 +	non-removable;
 +	pinctrl-names = "default";
 +	pinctrl-0 = <&emmc_bus8 &emmc_clk &emmc_cmd &emmc_datastrobe>;
